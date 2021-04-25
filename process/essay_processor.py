@@ -17,7 +17,7 @@ if p not in sys.path:
 
 from myutils.project_utils import *
 from myutils.cv_utils import *
-from x_utils.vpf_utils import get_ocr_trt_dev_service
+from x_utils.vpf_utils import get_ocr_trt_dev_service, get_ocr_trt_service_new
 from root_dir import DATA_DIR
 
 
@@ -59,7 +59,7 @@ class EssayProcessor(object):
         5-3%E8%AF%AD%E6%96%87-%E5%88%9D%E4%B8%AD%E5%90%8C%E6%AD%A5%E4%BD%9C%E6%96%87-%E4%B8%83%E5%B9%B4%E7%BA%A7/
         bookcover/page-0001.jpg
         """
-        res_dict = get_ocr_trt_dev_service(img_url=url)
+        res_dict = get_ocr_trt_service_new(img_url=url)
         ocr_data = res_dict['data']['data']
         words_info = ocr_data['wordsInfo']
         return words_info
@@ -143,15 +143,15 @@ class EssayProcessor(object):
             url_list.append(img_url)
         print('[Info] img_url num: {}'.format(len(url_list)))
 
-        pool = Pool(processes=2)
+        # pool = Pool(processes=5)
         for idx, img_url in enumerate(url_list):
-            # EssayProcessor.process_url(idx, img_url, self.out_folder, self.error_file)
-            pool.apply_async(EssayProcessor.process_url, (idx, img_url, self.out_folder, self.error_file))
+            EssayProcessor.process_url(idx, img_url, self.out_folder, self.error_file)
+            # pool.apply_async(EssayProcessor.process_url, (idx, img_url, self.out_folder, self.error_file))
             # if idx == 10:
             #     break
 
-        pool.close()
-        pool.join()
+        # pool.close()
+        # pool.join()
         print('[Info] 全部处理完成: {}'.format(self.out_folder))
 
 
