@@ -143,15 +143,15 @@ class EssayProcessor(object):
             url_list.append(img_url)
         print('[Info] img_url num: {}'.format(len(url_list)))
 
-        # pool = Pool(processes=5)
+        pool = Pool(processes=5)
         for idx, img_url in enumerate(url_list):
-            EssayProcessor.process_url(idx, img_url, self.out_folder, self.error_file)
-            # pool.apply_async(EssayProcessor.process_url, (idx, img_url, self.out_folder, self.error_file))
+            # EssayProcessor.process_url(idx, img_url, self.out_folder, self.error_file)
+            pool.apply_async(EssayProcessor.process_url, (idx, img_url, self.out_folder, self.error_file))
             # if idx == 10:
             #     break
 
-        # pool.close()
-        # pool.join()
+        pool.close()
+        pool.join()
         print('[Info] 全部处理完成: {}'.format(self.out_folder))
 
 
